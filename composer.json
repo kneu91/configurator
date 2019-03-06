@@ -1,0 +1,11 @@
+{
+  "name": "kneuman/configurator",
+  "description": "create custom configurator forms",
+  "autoload": {
+    "psr-4": {
+      "KnConfigurator\\Controller\\": "controller/",
+      "KnConfigurator\\": "src/"
+    }
+  },
+  "type": "prestashop-module"
+}

@@ -1,0 +1,16 @@
+configurator-list:
+    path: /configurator/list
+    methods: [GET]
+    defaults:
+      _controller: 'KnConfigurator\Controller\ConfiguratorController::listConfiguratorAction'
+configurator-add:
+    path: /configurator/add
+    methods: [GET]
+    defaults:
+      _controller: 'KnConfigurator\Controller\ConfiguratorController::addConfiguratorAction'
+
+inquiry-list:
+    path: /configurator/inquiry/list
+    methods: [GET]
+    defaults:
+      _controller: 'KnConfigurator\Controller\InquiryController::inquiryListAction'
