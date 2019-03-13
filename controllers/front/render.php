@@ -19,11 +19,13 @@ class ConfiguratorRenderModuleFrontController extends ModuleFrontController{
 		parent::initContent();
 
 
+		$token = md5(uniqid(rand(), TRUE));
+		$this->context->cookie->inquiry_token = $token;
 
 		$this->context->smarty->assign([
-
+			'csrf_token' => $this->context->cookie->inquiry_token
 		]);
-		// Will use the file modules/cheque/views/templates/front/validation.tpl
+
 		$this->setTemplate('module:configurator/views/templates/front/render.tpl');
 	}
 
@@ -32,21 +34,43 @@ class ConfiguratorRenderModuleFrontController extends ModuleFrontController{
 
 		if( Tools::isSubmit('saveForm') ){
 			// todo reszta
-			$template_path = dirname(__FILE__).'/mails/';
-			$success = Mail::Send((int)(Configuration::get('PS_LANG_DEFAULT')), // defaut language id
-				'inquiry', // email template file to be use
-				'Zapytanie', // email subject
-				array(
-					/*'{email}' => Configuration::get('PS_SHOP_EMAIL'), // sender email address
-					'{message}' => $this->displayName.' has been installed on:'._PS_BASE_URL_.__PS_BASE_URI__ // email content*/
-				),
-				'sznojman@gmail.com', // receiver email address
-				NULL, NULL, NULL,
-				$template_path
-			);
-			if($success){
 
+			// check token
+			$token = Tools::getValue('csrf_token');
+			if($token == $this->context->cookie->inquiry_token){
+
+
+				$email = Tools::getValue('email');
+				$telephone = Tools::getValue('telephone');
+				$text = htmlspecialchars(Tools::getValue('text'));
+
+
+
+				$template_path = dirname(__FILE__).'/mails/';
+
+				$success = Mail::Send(
+					$this->context->language->id,
+					'inquiry',
+					'Zapytanie',
+					array(
+						'{email}' => $email, // sender email address
+						'{telephone}' => $telephone, // sender email address
+						'{message}' => $text // email content
+					),
+					Configuration::get('PS_SHOP_EMAIL')
+
+				);
+
+				$sql = "
+					INSERT INTO "._DB_PREFIX_."configurator_inquiry (mail,telephone,text)
+					VALUES ('$email','$telephone','$text')
+				";
+
+				$db = Db::getInstance()->execute($sql);
+
+				$this->context->cookie->inquiry_token = "";
 			}
+
 
 		}
 	}

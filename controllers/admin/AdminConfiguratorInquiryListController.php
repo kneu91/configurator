@@ -6,6 +6,9 @@
  * Time: 22:45
  */
 
+
+
+
 class AdminConfiguratorInquiryListController extends ModuleAdminController{
 
 
@@ -14,14 +17,11 @@ class AdminConfiguratorInquiryListController extends ModuleAdminController{
 	{
 
 		// Set variables
-		$this->table = 'inquiry';
-		$this->className = 'test';
+		$this->table = 'configurator_inquiry';
+//		$this->className = 'Inquiry';
 		$this->fields_list = array(
-			'id_inquiry' => array('title' => 'id', 'align' =>	'center', 'width' => 25),
-
+			'id_configurator_inquiry' => array('title' => 'id', 'align' =>	'center', 'width' => 25),
 			'mail' => array('title' => 'email', 'width' => 150)
-
-
 		);
 		$this->addRowAction('edit');
 		$this->addRowAction('view');

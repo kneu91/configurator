@@ -36,13 +36,49 @@ class Configurator extends Module
 	public $tabs = array(
 		array(
 			'name' => array(
+				'pl' => 'Konfigurator',
 				'en' => 'Inquires', // Default value should be first
-				'pl' => 'Zapytania',
 
         ),
-	        'class_name' => 'AdminConfiguratorInquiryList',
-	        'parent_class_name' => 'AdminParentOrders',
-		)
+	        'class_name'=>'AdminConfigurator',
+	        'parent_class_name' => 'SELL',
+		),
+		array(
+			'name' => array(
+				'pl' => 'Zapytania ofertowe',
+				'en' => 'Inquires', // Default value should be first
+
+        ),
+			'class_name' => 'AdminConfiguratorInquiryList',
+			'parent_class_name' => 'AdminConfigurator'
+		),
+//		array(
+//			'name' => array(
+//				'pl' => 'Opcje',
+//				'en' => 'Options', // Default value should be first
+//
+//	    ),
+//			'class_name' => 'AdminConfiguratorOptionList',
+//			'parent_class_name' => 'AdminConfigurator'
+//		),
+//		array(
+//			'name' => array(
+//				'pl' => 'Wartosci',
+//				'en' => 'Items', // Default value should be first
+//
+//        ),
+//			'class_name' => 'AdminConfiguratorItemList',
+//			'parent_class_name' => 'AdminConfigurator'
+//		),
+//		array(
+//			'name' => array(
+//				'pl' => 'Konfiguratory',
+//				'en' => 'Cofiguraots', // Default value should be first
+//
+//        ),
+//			'class_name' => 'AdminConfiguratorList',
+//			'parent_class_name' => 'AdminConfigurator'
+//		)
 	);
 
 
@@ -82,14 +118,14 @@ class Configurator extends Module
     }
 
     public function uninstall()    {
-	    $var = $this->uninstallTab('AdminConfiguratorInquiryList');
-
+//	    $var = $this->uninstallTab('AdminConfiguratorInquiryList');
+	    Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_inquiry`');
+	    Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_option`');
+	    Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_item`');
+	    Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_options_items`');
 
         return parent::uninstall();
     }
-	
-
-
 
     /**
      * Load the configuration form
@@ -235,44 +271,42 @@ class Configurator extends Module
     }
 
 	private function installDB(){
-		/*return (
-			(Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator`') &&
-			 Db::getInstance()->Execute('
-			CREATE TABLE `'._DB_PREFIX_.'configurator` (
-					`id_configurator` int(10) unsigned NOT NULL AUTO_INCREMENT,
-					`word` VARCHAR(100),
-					`url` VARCHAR(100),
-					`in_use` tinyint(1) unsigned NOT NULL DEFAULT \'0\',
-					PRIMARY KEY (`id_configurator`)
-			) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;') )&&
-			(Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_item`') &&
-			 Db::getInstance()->Execute('
-			CREATE TABLE `'._DB_PREFIX_.'configurator_item` (
-					`id_configurator_item` int(10) unsigned NOT NULL AUTO_INCREMENT,
-					`id_seo` int(10),
-					`id_product` int(10),
-					PRIMARY KEY (`id_seotable`)
-			) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;') )&&
-			(Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_option`') &&
-			 Db::getInstance()->Execute('
-			CREATE TABLE `'._DB_PREFIX_.'configurator_option` (
-					`id_seocheck` int(10) unsigned NOT NULL AUTO_INCREMENT,
-					`id_product` int(10),
-					`id_seo` int(10),
-					`name` VARCHAR(128),
-					`quantity` int(10),
-					PRIMARY KEY (`id_seocheck`)
-			) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;'))
-		);*/
 		return (
-			Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'inquiry`') &&
+
+			Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_inquiry`') &&
 		    Db::getInstance()->Execute('
-			CREATE TABLE `'._DB_PREFIX_.'inquiry` (
-					`id_inquiry` int(10) unsigned NOT NULL AUTO_INCREMENT,
+			CREATE TABLE `'._DB_PREFIX_.'configurator_inquiry` (
+					`id_configurator_inquiry` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					`mail` VARCHAR(100),
 					`telephone` VARCHAR(100),	
 					`text` VARCHAR(255),	 				
-					PRIMARY KEY (`id_inquiry`)
-			) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;') );
+					PRIMARY KEY (`id_configurator_inquiry`)
+			) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;') &&
+
+			Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_option`') &&
+			Db::getInstance()->Execute('
+				CREATE TABLE `'._DB_PREFIX_.'configurator_option` (
+						`id_configurator_option` int(10) unsigned NOT NULL AUTO_INCREMENT,
+						`name` VARCHAR(100),										
+						PRIMARY KEY (`id_configurator_option`)
+				) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;')&&
+
+			Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator_item`') &&
+			Db::getInstance()->Execute('
+					CREATE TABLE `'._DB_PREFIX_.'configurator_item` (
+							`id_configurator_item` int(10) unsigned NOT NULL AUTO_INCREMENT,
+							`name` VARCHAR(100),										
+							PRIMARY KEY (`id_configurator_item`)
+					) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;')&&
+
+			Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'configurator__options_items`') &&
+			Db::getInstance()->Execute('
+					CREATE TABLE `'._DB_PREFIX_.'configurator__options_items` (
+							`id_configurator__options_items` int(10) unsigned NOT NULL AUTO_INCREMENT,
+							`id_configurator_option` int(10) unsigned NOT NULL,										
+							`id_configurator_item` int(10) unsigned NOT NULL,										
+							PRIMARY KEY (`id_configurator__options_items`)
+					) ENGINE = '._MYSQL_ENGINE_.' DEFAULT CHARSET=UTF8;')
+		);
 	}
 }
