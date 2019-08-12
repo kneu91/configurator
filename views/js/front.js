@@ -25,3 +25,58 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+console.log('conf');
+
+$( function() {
+    $( ".table-width" ).slider({
+        min: 90,
+        max: 500,
+        step: 1,
+        animate: true,
+        orientation: "horizontal",
+        range: "min",
+        create: function() {
+            $( "#table-width-handle" ).text( $( this ).slider( "value" ) );
+        },
+        slide: function( event, ui ) {
+            $( "#table-width-handle" ).text( ui.value );
+        }
+    });
+
+
+    $( ".table-height" ).slider({
+        min: 60,
+        max: 250,
+        step: 1,
+        animate: true,
+        orientation: "horizontal",
+        range: "min",
+        create: function() {
+            $( "#table-height-handle" ).text( $( this ).slider( "value" ) );
+        },
+        slide: function( event, ui ) {
+            $( "#table-height-handle" ).text( ui.value );
+        }
+    });
+
+
+    $( ".table-thick" ).slider({
+        min: 3,
+        max: 7,
+        step: 1,
+        animate: true,
+        orientation: "horizontal",
+        range: "min",
+        create: function() {
+            $( "#table-thick-handle" ).text( $( this ).slider( "value" ) );
+        },
+        slide: function( event, ui ) {
+            $( "#table-thick-handle" ).text( ui.value );
+        }
+    });
+
+
+
+
+
+} );

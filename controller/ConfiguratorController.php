@@ -10,7 +10,7 @@
 namespace KnConfigurator\Controller;
 
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use KnConfigurator\Entity\ConfiguratorItem;
+//use KnConfigurator\Entity\ConfiguratorItem;
 class ConfiguratorController extends FrameworkBundleAdminController{
 
 		public function listConfiguratorAction(){

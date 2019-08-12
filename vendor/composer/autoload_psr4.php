@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'KnConfigurator\\Controller\\' => array($baseDir . '/controller'),
+    'KnConfigurator\\Classes' => array($baseDir . '/classes'),
     'KnConfigurator\\' => array($baseDir . '/src'),
 );

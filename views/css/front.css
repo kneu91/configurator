@@ -25,3 +25,36 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
+.configurator{
+    padding: 50px;
+}
+.configurator h3{
+    text-transform: uppercase;
+    font-size: 1.6rem;
+}
+.configurator h4{
+    font-size: 1.2rem;
+}
+.configurator .radio-wap{
+    /*display: flex;*/
+    /*flex-direction: column;*/
+}
+.configurator .radio-wap label{
+    text-align: initial;
+    border: 2px solid #A4A3A2;
+    padding: 10px;
+    width: auto;
+}
+.configurator textarea{
+    min-height: 100px;
+    max-width: 422px;
+    width: 100%;
+}
+.ui-slider-handle.input-handler{
+    width: 3em !important;
+    text-align: center;
+    background-color: #2fb5d2;
+}
+.configurator [type="radio"]{
+
+}
